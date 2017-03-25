@@ -12,7 +12,7 @@ export default function HomePage(props) {
                         <a>E</a>
                         <a>D</a>
                     </h1>
-                    <h6>record your moods in color</h6>
+                    <h6>record your moods with color</h6>
                 </div>
                 <div className='sixteen columns'>
                     <div >
