@@ -16,7 +16,7 @@ class App extends Component {
     render() {
         return (
             < Router >
-                < div style={{position: 'relative'}}>
+                < div>
                     < Route path='/' component={ NavBar } />
                     < MainBody />
                     < Route path='/' component={ Footer }/>
