@@ -6,13 +6,19 @@
             "modules": true,
             "impliedStrict": true,
             "jsx": true,
-            "browser": true
+            "browser": true,
+            "experimentalObjectRestSpread": true
         }
     },
     "env": {
         "es6": true,
-        "node": true
+        "node": true,
+        "browser": true,
+        "commonjs": true
     },
+    "plugins": [
+        "react"
+    ],
     "extends": "eslint:recommended",
     "rules": {
         "indent": [
