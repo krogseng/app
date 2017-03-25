@@ -7,7 +7,6 @@ export default function UserMain(props) {
         <div>
             < UserHeader />
             < UserMoodsDay />
-            User main page, will need to be a class, have title component and body component
         </div>
     );
 }

@@ -12,10 +12,11 @@ class App extends Component {
 
         };
     }
+    //fetch for colors
     render() {
         return (
             < Router >
-                < div>
+                < div style={{position: 'relative'}}>
                     < Route path='/' component={ NavBar } />
                     < MainBody />
                     < Route path='/' component={ Footer }/>
