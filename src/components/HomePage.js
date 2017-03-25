@@ -3,7 +3,7 @@ import React from 'react';
 export default function HomePage(props) {
     return (
         <section>
-            <div className=''>
+            <div className='container'>
                 <div className='title'>
                     <h2>your mood,</h2>  
                     <h1>                  
@@ -14,7 +14,7 @@ export default function HomePage(props) {
                     </h1>
                     <h6>record your moods with color</h6>
                 </div>
-                <div className='container'>Store images in database
+                <div className='container'>
                     <div className='row'> 
                         <div className="three columns">
                             <img src='/assets/blue1.svg'/>
