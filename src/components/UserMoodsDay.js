@@ -4,23 +4,43 @@ import { Route, Link } from 'react-router-dom';
 export default function UserMoodsDay(props) {
     return (
         <div className='container'>
-            <div className='sixteen columns'>
-                <div >
-                    <Link to='/moods'>
-                        <div className="three offset-by-one columns square">1</div>
+            <div className='row'> 
+                <div className="four columns">
+                    <Link to ='/moods'>
+                        <img src='/assets/gray.svg'/>
                     </Link>
-                    <div className="three offset-by-one columns square"> 1</div>
-                    <div className="three offset-by-one columns square"> 1</div>
                 </div>
-                <div>
-                    <div className="three offset-by-one columns square"> 2</div>
-                    <div className="three offset-by-one columns square"> 2</div>
-                    <div className="three offset-by-one columns square"> 2</div>
+                <div className="four columns">
+                    <Link to ='/moods'>
+                        <img src='/assets/gray.svg'/>
+                    </Link>
                 </div>
-                <div>
-                    <div className="three offset-by-one columns square"> 3</div>
-                    <div className="three offset-by-one columns square"> 3</div>
-                    <div className="three offset-by-one columns square"> 3</div>
+                <div className="four columns">
+                    <Link to ='/moods'>
+                        <img src='/assets/gray.svg'/>
+                    </Link>
+                </div>
+            </div>
+            <div className='row'> 
+                <div className="four columns">
+                    <img src='/assets/gray.svg'/>
+                </div>
+                <div className="four columns">
+                    <img src='/assets/gray.svg'/>
+                </div>
+                <div className="four columns">
+                    <img src='/assets/gray.svg'/>
+                </div>
+            </div>
+            <div className='row'> 
+                <div className="four columns">
+                    <img src='/assets/gray.svg'/>
+                </div>
+                <div className="four columns">
+                    <img src='/assets/gray.svg'/>
+                </div>
+                <div className="four columns">
+                    <img src='/assets/gray.svg'/>
                 </div>
             </div>
         </div>
