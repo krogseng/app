@@ -6,10 +6,17 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 
 class App extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+
+        };
+    }
+    //fetch for colors
     render() {
         return (
             < Router >
-                < div>
+                < div className='app'>
                     < Route path='/' component={ NavBar } />
                     < MainBody />
                     < Route path='/' component={ Footer }/>
