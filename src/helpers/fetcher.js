@@ -1,10 +1,17 @@
-export default function fetcher({path, method, body}) {
+export default function fetcher({ path, method, body, token }) {
+    
+    const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    };
+    
+    if( token ) {
+        headers['Authorization'] = token;
+    }
+
     return fetch( `/api${path}`, {
         method: method,
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
+        headers,
         body: JSON.stringify(body),
     });
 }
