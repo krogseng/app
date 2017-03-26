@@ -24,7 +24,6 @@ export default class UserMain extends Component {
             <div>
                 < UserHeader />
                 < UserMoodsDay />
-                < Route path='/moods' component={MoodSelector}/>
             </div>
         );
     }

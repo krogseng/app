@@ -1,4 +1,5 @@
 import React from 'react';
+import AllColors from './AllColors';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default function HomePage(props) {
@@ -14,50 +15,7 @@ export default function HomePage(props) {
                         <a style={{color: '#E55C5C'}}>D</a>
                     </h1>
                 </div>
-                <div className='container'>
-                    <div className='row'> 
-                        <div className="three columns">
-                            <img src='/assets/blue1.svg'/>
-                        </div>
-                        <div className="three columns">
-                            <img src='/assets/green1.svg'/>
-                        </div>
-                        <div className="three columns">
-                            <img src='/assets/yellow1.svg'/>
-                        </div>
-                        <div className="three columns">
-                            <img src='/assets/red1.svg'/>
-                        </div>
-                    </div>
-                    <div className='row'> 
-                        <div className="three columns">
-                            <img src='/assets/blue2.svg'/>
-                        </div>
-                        <div className="three columns">
-                            <img src='/assets/green2.svg'/>
-                        </div>
-                        <div className="three columns">
-                            <img src='/assets/yellow2.svg'/>
-                        </div>
-                        <div className="three columns">
-                            <img src='/assets/red2.svg'/>
-                        </div>
-                    </div>
-                    <div className='row'> 
-                        <div className="three columns">
-                            <img src='/assets/blue3.svg'/>
-                        </div>
-                        <div className="three columns">
-                            <img src='/assets/green3.svg'/>
-                        </div>
-                        <div className="three columns">
-                            <img src='/assets/yellow3.svg'/>
-                        </div>
-                        <div className="three columns">
-                            <img src='/assets/red3.svg'/>
-                        </div>
-                    </div>
-                </div>
+                < AllColors />
             </div>
             <h6>record your moods with color</h6>
         </section>
