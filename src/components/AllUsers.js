@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import fetcher from '../helpers/fetcher';
+//import fetcher from '../helpers/fetcher';
 
 export default class AllUsers extends Component {
     constructor(props) {
