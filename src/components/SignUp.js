@@ -10,7 +10,7 @@ class SignUp extends React.Component {
             password: ''
         };
 
-        this.onSubmit = this.onSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     doFetch(state) {
@@ -27,7 +27,7 @@ class SignUp extends React.Component {
         });
     }
 
-    onSubmit(event) {
+    handleSubmit(event) {
         event.preventDefault();
         const username = this.refs.username.value;
         const email = this.refs.email.value;
@@ -44,13 +44,20 @@ class SignUp extends React.Component {
 
     render() {
         return (
-            <form onSubmit={this.onSubmit}>
-                <input type='text' ref='username' placeholder='username'  />   
-                <input type='email' ref='email' placeholder='email'/>
-                <input type='text' ref='password' placeholder='password'  />
- 
-                <button type='submit'>Submit</button>
-            </form>
+            <div className='container'>
+                <h3 style={{textAlign: 'center'}}>Welcome!</h3>
+                <div className= 'twelve columns'>
+                <form onSubmit={this.handleSubmit}>
+                    <input type='text' ref='username' placeholder='username' className= 'four columns offset-by-four'/>   
+                    <br/>
+                    <input type='email' ref='email' placeholder='email' className= 'four columns offset-by-four'/>
+                    <br/>
+                    <input type='text' ref='password' placeholder='password' className= 'four columns offset-by-four'/>
+                    <br/>
+                    <button type='submit' className= 'four columns offset-by-four button-primary'>Sign Up</button>
+                </form>
+                </div>
+            </div>
         );
     }
 }
