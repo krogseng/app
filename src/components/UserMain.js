@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import { Route } from 'react-router-dom';
+//import { Route } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import UserMoodsDay from './UserMoodsDay';
-import MoodSelector from './MoodSelector';
-import fetcher from '../helpers/fetcher';
+//import fetcher from '../helpers/fetcher';
 
 export default class UserMain extends Component {
     constructor(props) {
@@ -23,6 +22,8 @@ export default class UserMain extends Component {
         return (
             <div>
                 < UserHeader />
+                <span>Today's weather: </span>
+                <span>Location: </span>
                 < UserMoodsDay />
             </div>
         );
