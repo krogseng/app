@@ -14,6 +14,7 @@ class App extends Component {
             token: null,
         };
         this.hydrateAuth = this.hydrateAuth.bind(this);
+        this.handleSignOut = this.handleSignOut.bind(this);
     }
 
 
@@ -33,10 +34,17 @@ class App extends Component {
                 });
             }
         });
-
     }
 
-    //fetch for colors
+    handleSignOut() {
+        localStorage.removeItem('token');
+        this.setState({
+            isSignedIn: false,
+            token: false,
+        });
+    }
+
+    //fetch for colors and users
     render() {
         return (
             < Router >

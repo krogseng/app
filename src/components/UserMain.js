@@ -22,6 +22,8 @@ export default class UserMain extends Component {
         return (
             <div>
                 < UserHeader />
+                <span>Today's weather: </span>
+                <span>Location: </span>
                 < UserMoodsDay />
             </div>
         );

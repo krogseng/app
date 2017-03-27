@@ -8,7 +8,6 @@ export default class AllUsers extends Component {
             //store all user info
         };
     }
-    //fetcher()
 
     render() {
         return (
