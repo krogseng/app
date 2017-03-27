@@ -48,6 +48,8 @@ class App extends Component {
             isSignedIn: true,
             token: token,
         });
+        console.log(token)
+        console.log(this.state)
     }
 
     handleSignOut() {

@@ -2,9 +2,6 @@ import React from 'react';
 import fetcher from '../helpers/fetcher';
 
 class SignIn extends React.Component {
-    constructor(props) {
-        super(props);
-    }
 
     doFetch(username, password) {
         fetcher({
@@ -20,7 +17,7 @@ class SignIn extends React.Component {
         })
         .then(json => {
             if(json.error) {
-                console.log(json.error);
+                alert(json.error);
                 return;
             }
             return json.token;
@@ -43,8 +40,9 @@ class SignIn extends React.Component {
                             return;
                         }
                         this.doFetch(username, password)
-                            .then(() => {
-                                this.props.handleSignIn();
+                            .then((token) => {
+                                this.props.handleSignIn(token);
+                                console.log('token',token);
                             })
                             .catch(err => {
                                 console.log(err);
