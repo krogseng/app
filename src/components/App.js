@@ -14,25 +14,39 @@ class App extends Component {
             token: null,
         };
         this.hydrateAuth = this.hydrateAuth.bind(this);
+        this.handleSignIn = this.handleSignIn.bind(this);
         this.handleSignOut = this.handleSignOut.bind(this);
     }
 
 
     hydrateAuth() {
         const token = localStorage.getItem('token');
-        fetcher({
-            path: '/auth/verify',
-            method: 'GET',
+
+        if(token) {
+            fetcher({
+                path: '/auth/verify',
+                method: 'GET',
+                token: token,
+            })
+            .then(res => res.json())
+            .then(json => {
+                if(json.valid) {
+                    this.setState({
+                        isSignedIn: true,
+                        token: token,
+                    });
+                }
+                //if valid token, redirect to user dashboard
+            });
+        }
+    }
+
+
+    handleSignIn(token) {
+        localStorage.setItem('token', token);
+        this.setState({
+            isSignedIn: true,
             token: token,
-        })
-        .then(res => res.json())
-        .then(json => {
-            if(json.valid) {
-                this.setState({
-                    isSignedIn: true,
-                    token: token,
-                });
-            }
         });
     }
 
@@ -40,17 +54,20 @@ class App extends Component {
         localStorage.removeItem('token');
         this.setState({
             isSignedIn: false,
-            token: false,
+            token: null,
         });
     }
 
+    componentDidMount() {
+        this.hydrateAuth();
+    }
     //fetch for colors and users
     render() {
         return (
             < Router >
                 < div className='app'>
                     < Route path='/' component={ NavBar } />
-                    < MainBody />
+                    < MainBody handleSignIn={this.handleSignIn}/>
                     < Route path='/' component={ Footer }/>
                 </div>
             </ Router >
