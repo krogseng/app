@@ -14,3 +14,5 @@ export default function NavBar(props) {
         </nav>
     );
 }
+
+//pass props down logout function and isSignedIn so we know which to display

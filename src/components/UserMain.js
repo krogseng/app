@@ -13,7 +13,7 @@ export default class UserMain extends Component {
     }
 
     componentDidMount() {
-        console.log('token',this.props.token);
+        console.log('this token',this.props.token);
         fetcher({ 
             path: '/user', 
             method: 'GET', 

@@ -20,3 +20,6 @@ export default function MainBody({ handleSignIn, isSignedIn, token }) {
         </main>
     );
 }
+
+//user should be a protected route
+//move moods to UserMain 
