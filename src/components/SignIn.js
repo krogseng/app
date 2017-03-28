@@ -4,7 +4,7 @@ import fetcher from '../helpers/fetcher';
 class SignIn extends React.Component {
 
     doFetch(username, password) {
-        fetcher({
+        return fetcher({
             path: '/auth/signin',
             method: 'POST',
             body: {
@@ -17,7 +17,7 @@ class SignIn extends React.Component {
         })
         .then(json => {
             if(json.error) {
-                alert(json.error);
+                console.log('error', json.error);
                 return;
             }
             return json.token;
@@ -34,11 +34,8 @@ class SignIn extends React.Component {
                         e.preventDefault();
                         const username = this.refs.username.value;
                         const password = this.refs.password.value;
+                        console.log(username, password);
 
-                        if (!username || !password) {
-                            alert('must enter all fields');
-                            return;
-                        }
                         this.doFetch(username, password)
                             .then((token) => {
                                 this.props.handleSignIn(token);
@@ -47,11 +44,11 @@ class SignIn extends React.Component {
                             .catch(err => {
                                 console.log(err);
                             });
-                        event.target.reset();
+                        e.target.reset();
                     }}>
-                    <input type='text' ref='username' placeholder='username' className='four columns offset-by-four'/>   
+                    <input type='text' ref='username' placeholder='username' className='four columns offset-by-four' required />   
                     <br/>
-                    <input type='password' ref='password' placeholder='password' className='four columns offset-by-four'/>
+                    <input type='password' ref='password' placeholder='password' className='four columns offset-by-four' required />
                     <br/>
                     <button type='submit' className='four columns offset-by-four button-primary'>Sign In</button>
                 </form>

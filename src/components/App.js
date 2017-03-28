@@ -48,8 +48,6 @@ class App extends Component {
             isSignedIn: true,
             token: token,
         });
-        console.log(token)
-        console.log(this.state)
     }
 
     handleSignOut() {
@@ -69,7 +67,10 @@ class App extends Component {
             < Router >
                 < div className='app'>
                     < Route path='/' component={ NavBar } />
-                    < MainBody handleSignIn={this.handleSignIn}/>
+                    < MainBody 
+                        isSignedIn={this.state.isSignedIn} 
+                        token={this.state.token} 
+                        handleSignIn={this.handleSignIn}/>
                     < Route path='/' component={ Footer }/>
                 </div>
             </ Router >

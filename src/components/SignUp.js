@@ -18,9 +18,10 @@ class SignUp extends React.Component {
         })
         .then(json => {
             if(json.error) {
-                alert(json.error);
+                console.log('error', json.error);
                 return;
             }
+
             return json.token;
         });
     }
