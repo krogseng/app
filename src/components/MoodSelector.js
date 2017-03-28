@@ -1,12 +1,11 @@
 import React from 'react';
 //import { Route } from 'react-router-dom';
 import AllColors from './AllColors';
-import UserHeader from './UserHeader';
+//import UserHeader from './UserHeader';
 
 export default function MoodSelector(props) {
     return (
         <section className='container'>
-            < UserHeader />
             <form>
                 < input type='text' placeholder='geolocation' />
                 <div>Current Weather:</div>

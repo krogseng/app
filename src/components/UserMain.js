@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
-//import { Route } from 'react-router-dom';
+import React, {Component, PropTypes} from 'react';
+import { Route, Switch } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import UserMoodsDay from './UserMoodsDay';
+import MoodSelector from './MoodSelector';
 import fetcher from '../helpers/fetcher';
 
 export default class UserMain extends Component {
@@ -12,22 +13,24 @@ export default class UserMain extends Component {
         };
     }
 
+    static propTypes = {
+        match: PropTypes.object.isRequired,
+    }
+
     componentDidMount() {
-        console.log('this token',this.props.token);
+        const token = localStorage.getItem('token');        
         fetcher({ 
             path: '/user', 
             method: 'GET', 
-            token: this.props.token 
+            token: token 
         })
         .then(res => {
-
             return res.json();
         })
         .then(user => {
             this.setState({
                 user
             });
-
         })
         .catch(err => 
             console.log(err)
@@ -35,13 +38,17 @@ export default class UserMain extends Component {
     }
 
     render() {
+        const { match } = this.props;
+        const user = this.state.user;
         return (
             <div>
-                < UserHeader />
+                < UserHeader user={ user }/>
                 <span>Today's weather: </span>
                 <span>Location: </span>
-                <span>{this.state.user.username} </span>
-                < UserMoodsDay />
+                <Switch>
+                    < Route exact path={`${match.url}`} render={props => (<UserMoodsDay {...props} user={ user }/>)} />
+                    < Route path={`${match.url}/moods`} render={props => (<MoodSelector {...props} />)} />
+                </Switch>
             </div>
         );
     }
