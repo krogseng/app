@@ -3,7 +3,7 @@ import NavBar from './NavBar';
 import MainBody from './MainBody';
 import Footer from './Footer';
 import fetcher from '../helpers/fetcher';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 
 
 class App extends Component {
@@ -47,7 +47,12 @@ class App extends Component {
         this.setState({
             isSignedIn: true,
             token: token,
-        });
+        }
+        // , () => {
+        //     return ()
+        
+        // }
+        );
     }
 
     handleSignOut() {

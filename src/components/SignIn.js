@@ -1,7 +1,14 @@
 import React from 'react';
 import fetcher from '../helpers/fetcher';
+import { Redirect } from 'react-router-dom';
 
 class SignIn extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            signedInRedirect: false,
+        };
+    }
 
     doFetch(username, password) {
         return fetcher({
@@ -26,6 +33,9 @@ class SignIn extends React.Component {
 
 
     render() {
+        if(this.state.signedInRedirect) {
+            return (< Redirect to='/user' />);
+        }
         return (
             <div className='container'>
                 <h3 style={{textAlign: 'center'}}>Welcome back!</h3>
@@ -38,6 +48,9 @@ class SignIn extends React.Component {
                         this.doFetch(username, password)
                             .then((token) => {
                                 this.props.handleSignIn(token);
+                                this.setState({
+                                    signedInRedirect: true,
+                                });
                             })
                             .catch(err => {
                                 console.log(err);
