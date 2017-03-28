@@ -34,7 +34,9 @@ export default class UserMain extends Component {
             this.setState({
                 user
             });
+        //, () => {fetcher()} insert as callback
         })
+
         .catch(err => 
             console.log(err)
         );

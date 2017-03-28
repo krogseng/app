@@ -4,7 +4,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import UserMain from './UserMain';
 import AllUsers from './AllUsers';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 export default function MainBody({ handleSignIn, isSignedIn, token }) {
     console.log('isSignedIn', isSignedIn);
@@ -13,7 +13,7 @@ export default function MainBody({ handleSignIn, isSignedIn, token }) {
             < Route exact path='/' component={ HomePage } />
             < Route path='/signup' render={props => (<SignUp {...props} handleSignIn={handleSignIn}/>)} />
             < Route path='/signin' render={props => (<SignIn {...props} handleSignIn={handleSignIn}/>)}/>
-            < Route path='/user' render={props => (<UserMain {...props} isSignedIn={isSignedIn} token={token}/>)}/>
+            < Route path='/user' render={props => (isSignedIn ? (<UserMain {...props} isSignedIn={isSignedIn} token={token}/>) : (<Redirect to={{  pathname:'/signin', state: { from: props.location }}}/>))}/>
             < Route path='/allusers' component={ AllUsers } />
         </main>
     );
