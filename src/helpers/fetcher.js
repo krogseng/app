@@ -1,19 +1,20 @@
 export default function fetcher({ path, method, body, token }) {
-    
-    const headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
+    const data = {
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        method,
     };
     
     if( token ) {
-        headers['Authorization'] = token;
+        data.headers['Authorization'] = token;
     }
-
-    return fetch( `/api${path}`, {
-        method: method,
-        headers,
-        body: JSON.stringify(body),
-    });
+    if(body) {
+        data.body = JSON.stringify(body);
+        console.log(body);
+    } 
+    return fetch( `/api${path}`, data);
 }
 
 //for the backend: /api/moods (path='/moods')
