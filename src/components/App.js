@@ -63,7 +63,6 @@ class App extends Component {
     }
     //fetch for colors and users
     render() {
-        console.log('app token', this.state.token);
         return (
             < Router >
                 < div className='app'>

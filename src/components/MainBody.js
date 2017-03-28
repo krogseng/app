@@ -7,7 +7,7 @@ import AllUsers from './AllUsers';
 import { Route } from 'react-router-dom';
 
 export default function MainBody({ handleSignIn, isSignedIn, token }) {
-    console.log('MB', token);
+    console.log('MainBody token', token);
     return (
         <main>
             < Route exact path='/' component={ HomePage } />

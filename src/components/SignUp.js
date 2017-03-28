@@ -37,12 +37,10 @@ class SignUp extends React.Component {
                     const username = this.refs.username.value;
                     const password = this.refs.password.value;
                     const email = this.refs.email.value;
-                    console.log(username, password, email);
 
                     this.doFetch(username, password, email)
                         .then(token => {
                             this.props.handleSignIn(token);
-                            console.log(token);
                         })
                         .catch(err => {
                             console.log(err);
