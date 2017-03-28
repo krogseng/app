@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import { Route, Switch } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import UserMoodsDay from './UserMoodsDay';
-import MoodSelector from './MoodSelector';
+import UserMoodSelector from './UserMoodSelector';
 import fetcher from '../helpers/fetcher';
 
 export default class UserMain extends Component {
@@ -47,7 +47,7 @@ export default class UserMain extends Component {
                 <span>Location: </span>
                 <Switch>
                     < Route exact path={`${match.url}`} render={props => (<UserMoodsDay {...props} user={ user }/>)} />
-                    < Route path={`${match.url}/moods`} render={props => (<MoodSelector {...props} />)} />
+                    < Route path={`${match.url}/moods`} render={props => (<UserMoodSelector {...props} />)} />
                 </Switch>
             </div>
         );

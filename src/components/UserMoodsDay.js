@@ -9,6 +9,8 @@ export default class UserMoodsDay extends Component  {
         };
     }
 
+    
+
     static propTypes = {
         match: PropTypes.object.isRequired,
     }
