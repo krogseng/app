@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
+import UserViewBar from './UserViewBar';
 
 export default class UserMoodsDay extends Component  {
     constructor(props) {
@@ -9,7 +10,7 @@ export default class UserMoodsDay extends Component  {
         };
     }
 
-    
+
 
     static propTypes = {
         match: PropTypes.object.isRequired,
@@ -102,6 +103,7 @@ export default class UserMoodsDay extends Component  {
                             </Link>
                         </div>
                     </div>
+                    <UserViewBar />
             </div>
         );
     }

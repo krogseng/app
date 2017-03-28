@@ -3,6 +3,9 @@ import { Route, Switch } from 'react-router-dom';
 import UserHeader from './UserHeader';
 import UserMoodsDay from './UserMoodsDay';
 import UserMoodSelector from './UserMoodSelector';
+import UserCommentView from './UserCommentView';
+import UserWeekView from './UserWeekView';
+import UserMonthView from './UserMonthView';
 import fetcher from '../helpers/fetcher';
 
 export default class UserMain extends Component {
@@ -48,6 +51,9 @@ export default class UserMain extends Component {
                 <Switch>
                     < Route exact path={`${match.url}`} render={props => (<UserMoodsDay {...props} user={ user }/>)} />
                     < Route path={`${match.url}/moods`} render={props => (<UserMoodSelector {...props} />)} />
+                    < Route path={`${match.url}/comments`} component={ UserCommentView }/>
+                    < Route path={`${match.url}/week`} component={ UserWeekView }/>
+                    < Route path={`${match.url}/month`} component={ UserMonthView }/>
                 </Switch>
             </div>
         );
