@@ -34,12 +34,10 @@ class SignIn extends React.Component {
                         e.preventDefault();
                         const username = this.refs.username.value;
                         const password = this.refs.password.value;
-                        console.log(username, password);
 
                         this.doFetch(username, password)
                             .then((token) => {
                                 this.props.handleSignIn(token);
-                                console.log('token',token);
                             })
                             .catch(err => {
                                 console.log(err);

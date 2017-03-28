@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 export default function UserViewBar({ match }) {
-    console.log(match);
     return (
         <div>
             <div>

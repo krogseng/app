@@ -12,6 +12,21 @@ export default class AllUsers extends Component {
     render() {
         return (
             <div>
+                <select >
+                    <option>date</option>
+                </select>
+                <select >
+                    <option>city</option>
+                </select>
+                <select >
+                    <option>state</option>
+                </select>     
+                <select >
+                    <option>temperature</option>
+                </select>                 
+                <select >
+                    <option>weather</option>
+                </select>  
                 All Users Page
             </div>
         );
