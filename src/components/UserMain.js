@@ -7,17 +7,18 @@ import UserCommentView from './UserCommentView';
 import UserWeekView from './UserWeekView';
 import UserMonthView from './UserMonthView';
 import fetcher from '../helpers/fetcher';
+import { currentDateToString } from '../helpers/formatDate';
 
 export default class UserMain extends Component {
     constructor(props) {
         super(props);
         this.state = {
             user: {},
-            colors: [],
-            blocks: [],
             date: '',
-            view: 'day',
+            chosenBlock: {},
         };
+        this.handleDateSubmit = this.handleDateSubmit.bind(this);
+        this.handleBlockSelect = this.handleBlockSelect.bind(this);
     }
 
     static propTypes = {
@@ -36,26 +37,12 @@ export default class UserMain extends Component {
             return res.json();
         })
         .then(user => {
-            this.setState({
-                user
-            })
-        })
-        .catch(err => 
-            console.log(err)
-        );
-
-        fetcher({
-            path: '/color', 
-            method: 'GET', 
-        })
-        .then(res => {
-            return res.json();
-        })
-        .then(colors => {
+            const date = currentDateToString();
             this.setState({
                 ...this.state,
-                colors 
-            });
+                user,
+                date
+            })
         })
         .catch(err => 
             console.log(err)
@@ -63,7 +50,21 @@ export default class UserMain extends Component {
 
     }
 
+    handleBlockSelect(chosenBlock) {
+        this.setState({
+            ...this.state,
+            chosenBlock
+        })
+    }
+
+    handleDateSubmit(date) {
+        if(date) {
+            this.doFetchDate(date);
+        }
+    }
+
     render() {
+        console.log('state',this.state)
         const { match } = this.props;
         const user = this.state.user;
         return (
@@ -75,9 +76,15 @@ export default class UserMain extends Component {
                             user={ user } 
                             blocks={this.state.blocks}
                             handleDateSubmit={this.handleDateSubmit}
+                            date={this.state.date}
+                            handleBlockSelect={this.handleBlockSelect}
                         />
                     )} />
-                    < Route path={`${match.url}/moods`} render={props => (<UserMoodSelector {...props} />)} />
+                    < Route path={`${match.url}/moods`} render={props => (
+                        <UserMoodSelector {...props} />)} 
+                            date={this.state.date}
+                            chosenBlock={this.state.chosenBlock}
+                        />
                     < Route path={`${match.url}/comments`} component={ UserCommentView }/>
                     < Route path={`${match.url}/week`} component={ UserWeekView }/>
                     < Route path={`${match.url}/month`} component={ UserMonthView }/>

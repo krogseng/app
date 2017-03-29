@@ -2,18 +2,16 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 import UserViewBar from './UserViewBar';
 import fetcher from '../helpers/fetcher';
-import { formatDate } from '../helpers/formatDate';
+import { formatDate, currentDateToString } from '../helpers/formatDate';
 
 export default class UserMoodsDay extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            chosenBlock: '',
             savedMoods: [],
             blocks: [],
             allMoods: [],
             src: '/assets/gray.svg',
-            date: ''
         };
     }
 
@@ -23,10 +21,10 @@ export default class UserMoodsDay extends Component {
 
     //handler for mood selector goes here
 
-    doFetchDate(date) {
+    doFetchDate() {
         const token = localStorage.getItem('token');
         fetcher({
-            path: `/user/moods?date=${date}`, 
+            path: `/user/moods?date=${this.props.date}`, 
             method: 'GET', 
             token
         })
@@ -44,7 +42,6 @@ export default class UserMoodsDay extends Component {
                 ...this.state,
                 savedMoods: moods,
                 allMoods,
-                date,
             });
             console.log('MOODS', this.state.savedMoods);
         })
@@ -53,11 +50,7 @@ export default class UserMoodsDay extends Component {
         );
     }
 
-    handleDateSubmit(date) {
-        if(date) {
-            this.doFetchDate(date);
-        }
-    }
+
 
     componentDidMount() {
         const token = localStorage.getItem('token');
@@ -76,25 +69,15 @@ export default class UserMoodsDay extends Component {
             });
         })
         .then (() => {
-            let date = new Date();
-            let month = '' + (date.getMonth() + 1);
-            let day = '' + date.getDate();
-            let year = date.getFullYear();
-            if (month.length < 2) month = '0' + month;
-            if (day.length < 2) day = '0' + day;
-
-            date = [year, month, day].join('-');
-
-            this.doFetchDate(date);
+            this.doFetchDate(this.props.date);
             this.setState({
                 ...this.state,
-                date
             })
         });
     }
 
     render() {
-        const formattedDate = formatDate(this.state.date);
+        const formattedDate = formatDate(this.props.date);
         if(!this.state.allMoods) {
             return <div>loading</div>
         }
@@ -117,13 +100,7 @@ export default class UserMoodsDay extends Component {
         allRows.push(rowOne, rowTwo, rowThree);
         return (
             <div className='container'>
-                <h5>{formattedDate}</h5>
-                <form onChange={(e) => {
-                        e.preventDefault();
-                        this.handleDateSubmit(this.refs.searchDate.value);
-                    }}>
-                    <input type='date'ref='searchDate' required/><span style={{fontSize: 24}}>*</span>
-                </form>
+                <h5 className='text-center'>{formattedDate}</h5>
                 {allRows.map((row, i)=> {
                     return (<div className='row' key={i}>
                         {row.map((block, i) => {
@@ -132,7 +109,10 @@ export default class UserMoodsDay extends Component {
                                     <Link to={`${match.url}/moods`}>
                                         {block.timeFrame &&
                                             (<input 
-                                                onClick={(e) => {console.log(block._id, block.timeFrame)}}
+                                                onClick={(e) => {
+                                                    this.props.handleBlockSelect(block);
+                                                    console.log(block._id, block.timeFrame)
+                                                }}
                                                 type='image'
                                                 key={i}
                                                 ref={block.blockNumber}
@@ -158,6 +138,13 @@ export default class UserMoodsDay extends Component {
                     })
                 }
                 <UserViewBar />
+                <form onChange={(e) => {
+                        e.preventDefault();
+                        this.handleDateSubmit(this.refs.searchDate.value);
+                    }}>
+                    <label>Choose another date:</label>
+                    <input type='date'ref='searchDate' required/><span style={{fontSize: 24}}>*</span>
+                </form>
             </div>
         );
     }

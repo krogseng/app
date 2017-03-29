@@ -16,24 +16,24 @@ export default class UserMoodSelector extends Component {
         match: PropTypes.object.isRequired,
     }
 
-    // componentDidMount() {
-    //     fetcher({
-    //         path: '/color', 
-    //         method: 'GET', 
-    //     })
-    //     .then(res => {
-    //         return res.json();
-    //     })
-    //     .then(colors => {
-    //         this.setState({
-    //             ...this.state,
-    //             colors 
-    //         });
-    //     })
-    //     .catch(err => 
-    //         console.log(err)
-    //     );
-    // }
+    componentDidMount() {
+        fetcher({
+            path: '/color', 
+            method: 'GET', 
+        })
+        .then(res => {
+            return res.json();
+        })
+        .then(colors => {
+            this.setState({
+                ...this.state,
+                colors 
+            });
+        })
+        .catch(err => 
+            console.log(err)
+        );
+    }
 
     handleMoodSubmit(color) {
         this.setState({
