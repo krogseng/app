@@ -8,6 +8,7 @@ export default class UserMoodSelector extends Component {
         this.state = {
             submitMoodRedirect: false,
             colors: [],
+            selectedColor: {}
         };
     }
 
@@ -15,23 +16,30 @@ export default class UserMoodSelector extends Component {
         match: PropTypes.object.isRequired,
     }
 
-    componentDidMount() {
-        fetcher({
-            path: '/color', 
-            method: 'GET', 
+    // componentDidMount() {
+    //     fetcher({
+    //         path: '/color', 
+    //         method: 'GET', 
+    //     })
+    //     .then(res => {
+    //         return res.json();
+    //     })
+    //     .then(colors => {
+    //         this.setState({
+    //             ...this.state,
+    //             colors 
+    //         });
+    //     })
+    //     .catch(err => 
+    //         console.log(err)
+    //     );
+    // }
+
+    handleMoodSubmit(color) {
+        this.setState({
+            ...this.state,
+            selectedColor: color,
         })
-        .then(res => {
-            return res.json();
-        })
-        .then(colors => {
-            this.setState({
-                ...this.state,
-                colors 
-            });
-        })
-        .catch(err => 
-            console.log(err)
-        );
     }
 
     doFetchMoodPost(zipcode, mood) {
@@ -56,6 +64,7 @@ export default class UserMoodSelector extends Component {
                 console.log('error', json.error);
                 return;
             }
+            //call handler to change state to update list of moods
             return mood;
         });
     }
@@ -86,9 +95,9 @@ export default class UserMoodSelector extends Component {
                 <form onSubmit={(e) => {
                         e.preventDefault();
                         const zipcode = this.refs.zipcode.value;
-                        const mood = this.refs.mood.value;
-
-                        this.doFetchMoodPost(zipcode, mood)
+                        const comment = this.refs.comment.value;
+                        console.log(zipcode, comment, this.state.selectedColor)
+                        this.doFetchMoodPost(zipcode, comment, this.state.selectedColor._id)
                             .then((token) => {
                                 this.props.handleMoodSubmit(token);
                                 this.setState({
@@ -100,9 +109,9 @@ export default class UserMoodSelector extends Component {
                             });
                         e.target.reset();
                     }}>
-                    <input type='text' placeholder='zip code' required/><span style={{fontSize: 24}}>*</span>
+                    <input type='text' ref='zipcode' placeholder='zip code' required/><span style={{fontSize: 24}}>*</span>
                     <br/>
-                    <input type='text' placeholder='comment'/>
+                    <input type='text' ref='comment' placeholder='comment'/>
 
                     <div style={{textAlign: 'center', marginTop: '20px'}}>What's your {'timeframe'} mood?</div>
                     <div className='container'>
@@ -117,7 +126,7 @@ export default class UserMoodSelector extends Component {
                                             ref={color.mood} 
                                             onClick={(e) => {
                                                 e.preventDefault();
-                                                console.log(color.index, color.path, color.mood)
+                                                this.handleMoodSubmit(color);
                                             } }
                                             src={color.path}
                                             alt={color.mood}

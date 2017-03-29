@@ -8,30 +8,74 @@ export default class UserMoodsDay extends Component  {
         super(props);
         this.state = {
             chosenBlock: '',
-            src: [
-                '/assets/gray.svg',
-                '/assets/gray.svg',
-                '/assets/gray.svg',
-                '/assets/gray.svg',
-                '/assets/gray.svg',
-                '/assets/gray.svg',
-                '/assets/gray.svg',
-                '/assets/gray.svg',
-                '/assets/gray.svg'
-                ]
+            savedMoods: [],
+            blocks: [],
+            allMoods: [],
+            src: '/assets/gray.svg',
+
         };
     }
+    //state will have selected colors
 
     static propTypes = {
         match: PropTypes.object.isRequired,
     }
 
+    //handler for mood selector goes here
+    componentDidMount() {
+        const token = localStorage.getItem('token');
+        fetcher({
+            path: '/block', 
+            method: 'GET', 
+        })
+        .then(res => {
+            return res.json();
+        })
+        .then(blocks => {
+            this.setState({
+                ...this.state,
+                blocks ,
+                allMoods: blocks,
+            });
+        })
+        .then (() => {
+            fetcher({
+                path: `/user/moods?date=2017-03-29`, 
+                method: 'GET', 
+                token
+            })
+            .then(res => {
+                return res.json();
+            })
+            .then(moods => {
+                const allMoods = [...this.state.allMoods];
+
+                moods.forEach((mood) => {
+                    allMoods[mood.block.blockNumber] = mood;
+                })
+
+                this.setState({
+                    ...this.state,
+                    savedMoods: moods,
+                    allMoods,
+                });
+                console.log('MOODS', moods);
+            })
+            .catch(err => 
+                console.log(err)
+            );
+        });
+    }
+
     render() {
+        if(!this.state.allMoods) {
+            return <div>loading</div>
+        }
         const { match } = this.props;
         let rowOne = [];
         let rowTwo = [];
         let rowThree = [];
-        this.props.blocks.forEach((block, i) => {
+        this.state.allMoods.forEach((block, i) => {
             if(i < 3) {
                 rowOne.push(block);
             } else if ( i >=3 && i < 6 ) {
@@ -49,8 +93,10 @@ export default class UserMoodsDay extends Component  {
                 <form onSubmit={(e) => {
                         e.preventDefault();
                         console.log(this.refs.searchDate.value)
+                        this.props.handleDateSubmit(this.refs.searchDate.value);
+                        console.log('check date',this.state)
                     }}>
-                    <input type='date'ref='searchDate'/>
+                    <input type='date'ref='searchDate' required/><span style={{fontSize: 24}}>*</span>
                     <button>Find</button>
                 </form>
                 {allRows.map((row, i)=> {
@@ -59,14 +105,26 @@ export default class UserMoodsDay extends Component  {
                             return (
                                 <div className="four columns" key={block._id}>
                                     <Link to={`${match.url}/moods`}>
-                                        <input 
-                                            onClick={(e) => {console.log(block._id, block.timeFrame)}}
-                                            type='image'
-                                            key={i}
-                                            ref={block.blockNumber}
-                                            src={this.state.src[i]}
-                                            alt={`${block.timeFrame}`}
-                                            />
+                                        {block.timeFrame &&
+                                            (<input 
+                                                onClick={(e) => {console.log(block._id, block.timeFrame)}}
+                                                type='image'
+                                                key={i}
+                                                ref={block.blockNumber}
+                                                src={this.state.src}
+                                                alt={`${block.timeFrame}`}
+                                            />)
+                                        }
+                                        {block.color &&
+                                            (<input 
+                                                onClick={(e) => {console.log(block.color)}}
+                                                type='image'
+                                                key={i}
+                                                ref={block.block.blockNumber}
+                                                src={block.color.path}
+                                                alt={`${block.block.timeFrame}`}
+                                            />)
+                                        }
                                     </Link>
                                 </div>
                             )
