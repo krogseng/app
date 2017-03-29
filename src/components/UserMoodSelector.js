@@ -7,11 +7,31 @@ export default class UserMoodSelector extends Component {
         super(props);
         this.state = {
             submitMoodRedirect: false,
+            colors: [],
         };
     }
 
     static propTypes = {
         match: PropTypes.object.isRequired,
+    }
+
+    componentDidMount() {
+        fetcher({
+            path: '/color', 
+            method: 'GET', 
+        })
+        .then(res => {
+            return res.json();
+        })
+        .then(colors => {
+            this.setState({
+                ...this.state,
+                colors 
+            });
+        })
+        .catch(err => 
+            console.log(err)
+        );
     }
 
     doFetchMoodPost(zipcode, mood) {
@@ -44,6 +64,23 @@ export default class UserMoodSelector extends Component {
         // if(this.state.submitMoodRedirect) {
         //     //redirect to main user page
         // }
+        let colorRowOne = [];
+        let colorRowTwo = [];
+        let colorRowThree = [];
+        this.state.colors.forEach((block, i) => {
+            if(i < 4) {
+                colorRowOne.push(block);
+            } else if ( i >=4 && i < 8 ) {
+                colorRowTwo.push(block);
+            } else if ( i > 11) {
+                return;
+            } else {
+                colorRowThree.push(block);
+            }
+        });
+        let allColorRows = [];
+        allColorRows.push(colorRowOne, colorRowTwo, colorRowThree);
+
         return (
             <section className='container'>
                 <form onSubmit={(e) => {
@@ -69,89 +106,27 @@ export default class UserMoodSelector extends Component {
 
                     <div style={{textAlign: 'center', marginTop: '20px'}}>What's your {'timeframe'} mood?</div>
                     <div className='container'>
-                        <div className='row'>
-                            <div className="three columns">
-                                <input
-                                    type='image'
-                                    ref='first' onClick={(e)=> {
-                                        e.preventDefault();
-                                        console.log(this.refs.first.value)
-                                    }}
-                                    src='/assets/blue1.svg'
-                                    alt='sad, dark blue'
-                                    />
-                            </div>
-                            <div className="three columns">
-                                <img
-                                    src='/assets/green1.svg'
-                                    alt='relaxed, dark green'
-                                    />
-                            </div>
-                            <div className="three columns">
-                                <img
-                                    src='/assets/yellow1.svg'
-                                    alt='happy, dark yellow'
-                                    />
-                            </div>
-                            <div className="three columns">
-                                <img
-                                    src='/assets/red1.svg'
-                                    alt='angry, dark red'
-                                    />
-                            </div>
-                        </div>
-                        <div className='row'>
-                            <div className="three columns">
-                                <img
-                                    src='/assets/blue2.svg'
-                                    alt='stressed, medium blue'
-                                    />
-                            </div>
-                            <div className="three columns">
-                                <img
-                                    src='/assets/green2.svg'
-                                    alt='tired, medium green'
-                                    />
-                            </div>
-                            <div className="three columns">
-                                <img
-                                    src='/assets/yellow2.svg'
-                                    alt='excited, medium yellow'
-                                    />
-                            </div>
-                            <div className="three columns">
-                                <img
-                                    src='/assets/red2.svg'
-                                    alt='fearful, medium red'
-                                    />
-                            </div>
-                        </div>
-                        <div className='row'>
-                            <div className="three columns">
-                                <img
-                                    src='/assets/blue3.svg'
-                                    alt='frustrated, light blue'
-                                    />
-                            </div>
-                            <div className="three columns">
-                                <img
-                                    src='/assets/green3.svg'
-                                    alt='bored, light green'
-                                    />
-                            </div>
-                            <div className="three columns">
-                                <img
-                                    src='/assets/yellow3.svg'
-                                    alt='content, light yellow'
-                                    />
-                            </div>
-                            <div className="three columns">
-                                <img
-                                    src='/assets/red3.svg'
-                                    alt='anxious, light red'
-                                    />
-                            </div>
-                        </div>
+                    {allColorRows.map((row, i) => {
+                        return (<div className='row' key={i}>
+                            {row.map((color, i) => {
+                                return (
+                                    <div className="three columns" key={color._id}>
+                                        <input
+                                            type='image'
+                                            key={color.index}
+                                            ref={color.mood} 
+                                            onClick={(e) => {
+                                                e.preventDefault();
+                                                console.log(color.index, color.path, color.mood)
+                                            } }
+                                            src={color.path}
+                                            alt={color.mood}
+                                            />
+                                    </div>
+                                );
+                            })}
+                        </div>)
+                    })}
                     </div>
                     <button className='button-primary'>Submit Mood</button>
                     <button><Link to='/user'>Back</Link></button>

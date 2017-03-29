@@ -7,7 +7,6 @@ export default class UserMoodsDay extends Component  {
     constructor(props) {
         super(props);
         this.state = {
-            blocks: [],
             chosenBlock: '',
             src: [
                 '/assets/gray.svg',
@@ -27,38 +26,17 @@ export default class UserMoodsDay extends Component  {
         match: PropTypes.object.isRequired,
     }
 
-    componentDidMount() {
-        const token = localStorage.getItem('token');        
-        fetcher({ 
-            path: '/block', 
-            method: 'GET', 
-            token: token 
-        })
-        .then(res => {
-            return res.json();
-        })
-        .then(blocks => {
-            this.setState({
-                ...this.state,
-                blocks 
-            });
-        })
-        .catch(err => 
-            console.log(err)
-        );
-    }
-
     render() {
         const { match } = this.props;
         let rowOne = [];
         let rowTwo = [];
         let rowThree = [];
-        this.state.blocks.forEach((block, i) => {
+        this.props.blocks.forEach((block, i) => {
             if(i < 3) {
                 rowOne.push(block);
             } else if ( i >=3 && i < 6 ) {
                 rowTwo.push(block);
-            } else if ( 1 > 8) {
+            } else if ( i > 8) {
                 return;
             } else {
                 rowThree.push(block);
