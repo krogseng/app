@@ -12,7 +12,7 @@ export default class UserMoodsDay extends Component {
             blocks: [],
             allMoods: [],
             src: '/assets/gray.svg',
-
+            date: ''
         };
     }
 
@@ -33,7 +33,7 @@ export default class UserMoodsDay extends Component {
             return res.json();
         })
         .then(moods => {
-            const allMoods = [...this.state.allMoods];
+            const allMoods = [...this.state.blocks];
 
             moods.forEach((mood) => {
                 allMoods[mood.block.blockNumber] = mood;
@@ -43,12 +43,19 @@ export default class UserMoodsDay extends Component {
                 ...this.state,
                 savedMoods: moods,
                 allMoods,
+                date,
             });
-            console.log('MOODS', moods);
+            console.log('MOODS', this.state.savedMoods);
         })
         .catch(err => 
             console.log(err)
         );
+    }
+
+    handleDateSubmit(date) {
+        if(date) {
+            this.doFetchDate(date);
+        }
     }
 
     componentDidMount() {
@@ -78,6 +85,10 @@ export default class UserMoodsDay extends Component {
             date = [year, month, day].join('-');
 
             this.doFetchDate(date);
+            this.setState({
+                ...this.state,
+                date
+            })
         });
     }
 
@@ -104,11 +115,9 @@ export default class UserMoodsDay extends Component {
         allRows.push(rowOne, rowTwo, rowThree);
         return (
             <div className='container'>
-                <form onSubmit={(e) => {
+                <form onChange={(e) => {
                         e.preventDefault();
-                        console.log(this.refs.searchDate.value)
-                        this.props.handleDateSubmit(this.refs.searchDate.value);
-                        console.log('check date',this.state)
+                        this.handleDateSubmit(this.refs.searchDate.value);
                     }}>
                     <input type='date'ref='searchDate' required/><span style={{fontSize: 24}}>*</span>
                     <button>Find</button>

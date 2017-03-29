@@ -24,7 +24,7 @@ export default class UserMain extends Component {
         match: PropTypes.object.isRequired,
     }
 
-    //promise all
+    //TODO promise all
     componentDidMount() {
         const token = localStorage.getItem('token');        
         fetcher({ 
@@ -43,8 +43,6 @@ export default class UserMain extends Component {
         .catch(err => 
             console.log(err)
         );
-     
-
 
         fetcher({
             path: '/color', 
