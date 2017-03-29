@@ -1,20 +1,44 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 import UserViewBar from './UserViewBar';
+import fetcher from '../helpers/fetcher';
 
 export default class UserMoodsDay extends Component  {
     constructor(props) {
         super(props);
         this.state = {
+            blocks: [],
             chosenBlock: '',
         };
     }
 
-
-
     static propTypes = {
         match: PropTypes.object.isRequired,
     }
+
+    componentDidMount() {
+        const token = localStorage.getItem('token');        
+        fetcher({ 
+            path: '/block', 
+            method: 'GET', 
+            token: token 
+        })
+        .then(res => {
+            return res.json();
+        })
+        .then(blocks => {
+            this.setState({
+                ...this.state,
+                blocks 
+            });
+            console.log(this.state)
+        //, () => {fetcher()} insert as callback
+        })
+        .catch(err => 
+            console.log(err)
+        );
+    }
+
     render() {
         const { match } = this.props;
         return (

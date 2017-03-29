@@ -71,7 +71,7 @@ class App extends Component {
         return (
             < Router >
                 < div className='app'>
-                    < Route path='/' render={props => (<NavBar {...props} handleSignOut={this.handleSignOut}/>)} />
+                    < Route path='/' render={props => (<NavBar {...props} isSignedIn={this.state.isSignedIn} handleSignOut={this.handleSignOut}/>)} />
                     < MainBody 
                         isSignedIn={this.state.isSignedIn} 
                         token={this.state.token} 

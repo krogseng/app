@@ -42,6 +42,10 @@ export default class UserMain extends Component {
         );
     }
 
+    handleMoodSubmit(token) {
+        
+    }
+
     render() {
         const { match } = this.props;
         const user = this.state.user;
