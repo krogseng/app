@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 import UserViewBar from './UserViewBar';
 import fetcher from '../helpers/fetcher';
+import { formatDate } from '../helpers/formatDate';
 
 export default class UserMoodsDay extends Component {
     constructor(props) {
@@ -93,6 +94,7 @@ export default class UserMoodsDay extends Component {
     }
 
     render() {
+        const formattedDate = formatDate(this.state.date);
         if(!this.state.allMoods) {
             return <div>loading</div>
         }
@@ -115,12 +117,12 @@ export default class UserMoodsDay extends Component {
         allRows.push(rowOne, rowTwo, rowThree);
         return (
             <div className='container'>
+                <h5>{formattedDate}</h5>
                 <form onChange={(e) => {
                         e.preventDefault();
                         this.handleDateSubmit(this.refs.searchDate.value);
                     }}>
                     <input type='date'ref='searchDate' required/><span style={{fontSize: 24}}>*</span>
-                    <button>Find</button>
                 </form>
                 {allRows.map((row, i)=> {
                     return (<div className='row' key={i}>

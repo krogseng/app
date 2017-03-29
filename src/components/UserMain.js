@@ -63,15 +63,6 @@ export default class UserMain extends Component {
 
     }
 
-    handleDateSubmit(date) {
-        if(date) {
-            this.setState({
-                ...this.state,
-                date,
-            })
-        }
-    }
-
     render() {
         const { match } = this.props;
         const user = this.state.user;

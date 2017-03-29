@@ -13,7 +13,6 @@ export default function UserHeader(props) {
         <section className='container title'>
             <div>
                 <h3>{props.user.username}</h3>
-                <h5>selectedDate</h5>
             </div>
         </section>
     );
