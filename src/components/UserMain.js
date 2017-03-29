@@ -13,6 +13,10 @@ export default class UserMain extends Component {
         super(props);
         this.state = {
             user: {},
+            colors: [],
+            blocks: [],
+            date: '',
+            view: 'day',
         };
     }
 
@@ -20,6 +24,7 @@ export default class UserMain extends Component {
         match: PropTypes.object.isRequired,
     }
 
+    //promise all
     componentDidMount() {
         const token = localStorage.getItem('token');        
         fetcher({ 
@@ -33,11 +38,40 @@ export default class UserMain extends Component {
         .then(user => {
             this.setState({
                 user
+            })
+        })
+        .catch(err => 
+            console.log(err)
+        );
+     
+
+
+        fetcher({
+            path: '/color', 
+            method: 'GET', 
+        })
+        .then(res => {
+            return res.json();
+        })
+        .then(colors => {
+            this.setState({
+                ...this.state,
+                colors 
             });
         })
         .catch(err => 
             console.log(err)
         );
+
+    }
+
+    handleDateSubmit(date) {
+        if(date) {
+            this.setState({
+                ...this.state,
+                date,
+            })
+        }
     }
 
     render() {
@@ -45,11 +79,15 @@ export default class UserMain extends Component {
         const user = this.state.user;
         return (
             <div>
-                < UserHeader user={ user }/>
-                <span>Today's weather: </span>
-                <span>Location: </span>
+                <UserHeader user={ user } />
                 <Switch>
-                    < Route exact path={`${match.url}`} render={props => (<UserMoodsDay {...props} user={ user }/>)} />
+                    < Route exact path={`${match.url}`} render={props => (
+                        <UserMoodsDay {...props} 
+                            user={ user } 
+                            blocks={this.state.blocks}
+                            handleDateSubmit={this.handleDateSubmit}
+                        />
+                    )} />
                     < Route path={`${match.url}/moods`} render={props => (<UserMoodSelector {...props} />)} />
                     < Route path={`${match.url}/comments`} component={ UserCommentView }/>
                     < Route path={`${match.url}/week`} component={ UserWeekView }/>
@@ -59,3 +97,5 @@ export default class UserMain extends Component {
         );
     }
 }
+                // <span>Today's weather: </span>
+                // <span>Location: </span>
