@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import UserViewBar from './UserViewBar';
 import fetcher from '../helpers/fetcher';
 
-export default class UserMoodsDay extends Component  {
+export default class UserMoodsDay extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -15,13 +15,42 @@ export default class UserMoodsDay extends Component  {
 
         };
     }
-    //state will have selected colors
 
     static propTypes = {
         match: PropTypes.object.isRequired,
     }
 
     //handler for mood selector goes here
+
+    doFetchDate(date) {
+        const token = localStorage.getItem('token');
+        fetcher({
+            path: `/user/moods?date=${date}`, 
+            method: 'GET', 
+            token
+        })
+        .then(res => {
+            return res.json();
+        })
+        .then(moods => {
+            const allMoods = [...this.state.allMoods];
+
+            moods.forEach((mood) => {
+                allMoods[mood.block.blockNumber] = mood;
+            })
+
+            this.setState({
+                ...this.state,
+                savedMoods: moods,
+                allMoods,
+            });
+            console.log('MOODS', moods);
+        })
+        .catch(err => 
+            console.log(err)
+        );
+    }
+
     componentDidMount() {
         const token = localStorage.getItem('token');
         fetcher({
@@ -39,31 +68,16 @@ export default class UserMoodsDay extends Component  {
             });
         })
         .then (() => {
-            fetcher({
-                path: `/user/moods?date=2017-03-29`, 
-                method: 'GET', 
-                token
-            })
-            .then(res => {
-                return res.json();
-            })
-            .then(moods => {
-                const allMoods = [...this.state.allMoods];
+            let date = new Date();
+            let month = '' + (date.getMonth() + 1);
+            let day = '' + date.getDate();
+            let year = date.getFullYear();
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
 
-                moods.forEach((mood) => {
-                    allMoods[mood.block.blockNumber] = mood;
-                })
+            date = [year, month, day].join('-');
 
-                this.setState({
-                    ...this.state,
-                    savedMoods: moods,
-                    allMoods,
-                });
-                console.log('MOODS', moods);
-            })
-            .catch(err => 
-                console.log(err)
-            );
+            this.doFetchDate(date);
         });
     }
 
