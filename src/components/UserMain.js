@@ -81,10 +81,11 @@ export default class UserMain extends Component {
                         />
                     )} />
                     < Route path={`${match.url}/moods`} render={props => (
-                        <UserMoodSelector {...props} />)} 
+                        <UserMoodSelector {...props} 
                             date={this.state.date}
                             chosenBlock={this.state.chosenBlock}
-                        />
+                        />)} 
+                    />
                     < Route path={`${match.url}/comments`} component={ UserCommentView }/>
                     < Route path={`${match.url}/week`} component={ UserWeekView }/>
                     < Route path={`${match.url}/month`} component={ UserMonthView }/>

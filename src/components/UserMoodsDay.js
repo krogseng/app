@@ -34,6 +34,7 @@ export default class UserMoodsDay extends Component {
         .then(moods => {
             const allMoods = [...this.state.blocks];
 
+            console.log('moods in forEach', moods)
             moods.forEach((mood) => {
                 allMoods[mood.block.blockNumber] = mood;
             })
@@ -140,7 +141,7 @@ export default class UserMoodsDay extends Component {
                 <UserViewBar />
                 <form onChange={(e) => {
                         e.preventDefault();
-                        this.handleDateSubmit(this.refs.searchDate.value);
+                        this.props.handleDateSubmit(this.props.date);
                     }}>
                     <label>Choose another date:</label>
                     <input type='date'ref='searchDate' required/><span style={{fontSize: 24}}>*</span>
