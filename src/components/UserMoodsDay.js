@@ -31,8 +31,6 @@ export default class UserMoodsDay extends Component  {
                 ...this.state,
                 blocks 
             });
-            console.log(this.state)
-        //, () => {fetcher()} insert as callback
         })
         .catch(err => 
             console.log(err)
@@ -41,93 +39,46 @@ export default class UserMoodsDay extends Component  {
 
     render() {
         const { match } = this.props;
+        let rowOne = [];
+        let rowTwo = [];
+        let rowThree = [];
+        this.state.blocks.forEach((block, i) => {
+            if(i < 3) {
+                rowOne.push(block);
+            } else if ( i >=3 && i < 6 ) {
+                rowTwo.push(block);
+            } else if ( 1 > 8) {
+                return;
+            } else {
+                rowThree.push(block);
+            }
+        });
+        let allRows = [];
+        allRows.push(rowOne, rowTwo, rowThree);
         return (
             <div className='container'>
-                    <div className='row'>
-                        <div className="four columns" >
-                            <Link to={`${match.url}/moods`}>
-                                <input type='image'
-                                    ref='0'
-                                    src='/assets/gray.svg'
-                                    alt='blank mood early morning'
-                                    />
-                            </Link>
-                        </div>
-                        <div className="four columns">
-                            <Link to={`${match.url}/moods`}>
-                                <input type='image'
-                                    ref='1'
-                                    src='/assets/gray.svg'
-                                    alt='blank mood mid morning'
-                                    />
-                            </Link>
-                        </div>
-                        <div className="four columns">
-                            <Link to={`${match.url}/moods`}>
-                                <input type='image'
-                                    ref='2'
-                                    src='/assets/gray.svg'
-                                    alt='blank mood late morning'
-                                    />
-                            </Link>
-                        </div>
-
-                    </div>
-
-                    <div className='row'>
-                        <div className="four columns">
-                            <Link to={`${match.url}/moods`}>
-                                <input type='image'
-                                    src='/assets/gray.svg'
-                                    alt='blank mood early afternoon'
-                                    />
-                            </Link>
-                        </div>
-                        <div className="four columns">
-                            <Link to={`${match.url}/moods`}>
-                                <input type='image'
-                                    src='/assets/gray.svg'
-                                    alt='blank mood mid afternoon'
-                                    />
-                            </Link>
-                        </div>
-                        <div className="four columns">
-                            <Link to={`${match.url}/moods`}>
-                                <input type='image'
-                                    src='/assets/gray.svg'
-                                    alt='blank mood late afternoon'
-                                    />
-                            </Link>
-                        </div>
-                    </div>
-
-                    <div className='row'>
-                        <div className="four columns">
-                            <Link to={`${match.url}/moods`}>
-                                <input type='image'
-                                    src='/assets/gray.svg'
-                                    alt='blank mood early evening'
-                                    />
-                            </Link>
-                        </div>
-                        <div className="four columns">
-                            <Link to={`${match.url}/moods`}>
-                                <input type='image'
-                                    src='/assets/gray.svg'
-                                    alt='blank mood mid evening'
-                                    />
-                            </Link>
-                        </div>
-                        <div className="four columns">
-                            <Link to={`${match.url}/moods`}>
-                                <input type='image'
-                                    src='/assets/gray.svg'
-                                    alt='blank mood late evening'
-                                    />
-                            </Link>
-                        </div>
-                    </div>
-                    <UserViewBar />
+                {allRows.map(row => {
+                    return (<div className='row'>
+                        {row.map(block => {
+                            return (
+                                <div className="four columns">
+                                    <Link to={`${match.url}/moods`}>
+                                        <input 
+                                            onClick={(e) => {console.log(block._id, block.timeFrame)}}
+                                            key={block._id}
+                                            type='image'
+                                            ref={block.blockNumber}
+                                            src='/assets/gray.svg'
+                                            alt={`blank mood ${block.timeFrame}`}
+                                            />
+                                    </Link>
+                                </div>
+                            )
+                        })}
+                    </div>)
+                    })
+                }
+                <UserViewBar />
             </div>
         );
     }

@@ -8,6 +8,7 @@ import { Route, Redirect } from 'react-router-dom';
 
 export default function MainBody({ handleSignIn, isSignedIn, token }) {
     console.log('isSignedIn', isSignedIn);
+    console.log('token', token)
     return (
         <main>
             < Route exact path='/' component={ HomePage } />
