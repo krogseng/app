@@ -9,6 +9,17 @@ export default class UserMoodsDay extends Component  {
         this.state = {
             blocks: [],
             chosenBlock: '',
+            src: [
+                '/assets/gray.svg',
+                '/assets/gray.svg',
+                '/assets/gray.svg',
+                '/assets/gray.svg',
+                '/assets/gray.svg',
+                '/assets/gray.svg',
+                '/assets/gray.svg',
+                '/assets/gray.svg',
+                '/assets/gray.svg'
+                ]
         };
     }
 
@@ -57,19 +68,26 @@ export default class UserMoodsDay extends Component  {
         allRows.push(rowOne, rowTwo, rowThree);
         return (
             <div className='container'>
-                {allRows.map(row => {
-                    return (<div className='row'>
-                        {row.map(block => {
+                <form onSubmit={(e) => {
+                        e.preventDefault();
+                        console.log(this.refs.searchDate.value)
+                    }}>
+                    <input type='date'ref='searchDate'/>
+                    <button>Find</button>
+                </form>
+                {allRows.map((row, i)=> {
+                    return (<div className='row' key={i}>
+                        {row.map((block, i) => {
                             return (
-                                <div className="four columns">
+                                <div className="four columns" key={block._id}>
                                     <Link to={`${match.url}/moods`}>
                                         <input 
                                             onClick={(e) => {console.log(block._id, block.timeFrame)}}
-                                            key={block._id}
                                             type='image'
+                                            key={i}
                                             ref={block.blockNumber}
-                                            src='/assets/gray.svg'
-                                            alt={`blank mood ${block.timeFrame}`}
+                                            src={this.state.src[i]}
+                                            alt={`${block.timeFrame}`}
                                             />
                                     </Link>
                                 </div>

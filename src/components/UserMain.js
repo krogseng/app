@@ -13,6 +13,9 @@ export default class UserMain extends Component {
         super(props);
         this.state = {
             user: {},
+            colors: [],
+            blocks: [],
+            moods: [],
         };
     }
 
@@ -43,7 +46,7 @@ export default class UserMain extends Component {
     }
 
     handleMoodSubmit(token) {
-        
+
     }
 
     render() {

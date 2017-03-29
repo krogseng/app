@@ -41,6 +41,9 @@ export default class UserMoodSelector extends Component {
     }
 
     render() {
+        // if(this.state.submitMoodRedirect) {
+        //     //redirect to main user page
+        // }
         return (
             <section className='container'>
                 <form onSubmit={(e) => {
@@ -60,7 +63,10 @@ export default class UserMoodSelector extends Component {
                             });
                         e.target.reset();
                     }}>
-                    <input type='text' placeholder='zip code'/>
+                    <input type='text' placeholder='zip code' required/><span style={{fontSize: 24}}>*</span>
+                    <br/>
+                    <input type='text' placeholder='comment'/>
+
                     <div style={{textAlign: 'center', marginTop: '20px'}}>What's your {'timeframe'} mood?</div>
                     <div className='container'>
                         <div className='row'>
