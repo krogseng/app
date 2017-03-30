@@ -10,7 +10,6 @@ export default class UserMoodSelector extends Component {
             colors: [],
             selectedColor: {}
         };
-        console.log('PROPS', this.props)
         this.handleMoodSubmit = this.handleMoodSubmit.bind(this);
         this.doFetchMoodPost = this.doFetchMoodPost.bind(this);
     }

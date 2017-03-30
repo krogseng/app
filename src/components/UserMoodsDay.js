@@ -8,10 +8,7 @@ export default class UserMoodsDay extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            savedMoods: [],
-            blocks: [],
-            allMoods: [],
-            src: '/assets/gray.svg',
+
         };
     }
 
@@ -19,74 +16,24 @@ export default class UserMoodsDay extends Component {
         match: PropTypes.object.isRequired,
     }
 
-    //handler for mood selector goes here
-
-    doFetchDate() {
-        const token = localStorage.getItem('token');
-        fetcher({
-            path: `/user/moods?date=${this.props.date}`, 
-            method: 'GET', 
-            token
-        })
-        .then(res => {
-            return res.json();
-        })
-        .then(moods => {
-            const allMoods = [...this.state.blocks];
-
-            console.log('moods in forEach', moods)
-            moods.forEach((mood) => {
-                allMoods[mood.block.blockNumber] = mood;
-            })
-
-            this.setState({
-                ...this.state,
-                savedMoods: moods,
-                allMoods,
-            });
-            console.log('MOODS', this.state.savedMoods);
-        })
-        .catch(err => 
-            console.log(err)
-        );
-    }
-
-
-
-    componentDidMount() {
-        const token = localStorage.getItem('token');
-        fetcher({
-            path: '/block', 
-            method: 'GET', 
-        })
-        .then(res => {
-            return res.json();
-        })
-        .then(blocks => {
-            this.setState({
-                ...this.state,
-                blocks ,
-                allMoods: blocks,
-            });
-        })
-        .then (() => {
-            this.doFetchDate(this.props.date);
-            this.setState({
-                ...this.state,
-            })
-        });
-    }
+    // user={ user } 
+    // blocks={this.state.blocks}
+    // handleDateSubmit={this.handleDateSubmit}
+    // doFetchDate={this.doFetchDate}
+    // date={this.state.date}
+    // handleBlockSelect={this.handleBlockSelect}
 
     render() {
         const formattedDate = formatDate(this.props.date);
-        if(!this.state.allMoods) {
+        console.log('mood date',formattedDate)
+        if(!this.props.allMoods) {
             return <div>loading</div>
         }
         const { match } = this.props;
         let rowOne = [];
         let rowTwo = [];
         let rowThree = [];
-        this.state.allMoods.forEach((block, i) => {
+        this.props.allMoods.forEach((block, i) => {
             if(i < 3) {
                 rowOne.push(block);
             } else if ( i >=3 && i < 6 ) {
@@ -112,12 +59,11 @@ export default class UserMoodsDay extends Component {
                                             (<input 
                                                 onClick={(e) => {
                                                     this.props.handleBlockSelect(block);
-                                                    console.log(block._id, block.timeFrame)
                                                 }}
                                                 type='image'
                                                 key={i}
                                                 ref={block.blockNumber}
-                                                src={this.state.src}
+                                                src={this.props.src}
                                                 alt={`${block.timeFrame}`}
                                             />)
                                         }
@@ -141,7 +87,8 @@ export default class UserMoodsDay extends Component {
                 <UserViewBar />
                 <form onChange={(e) => {
                         e.preventDefault();
-                        this.props.handleDateSubmit(this.props.date);
+                        this.props.handleDateSubmit(this.refs.searchDate.value);
+                        this.props.doFetchDate(this.refs.searchDate.value);
                     }}>
                     <label>Choose another date:</label>
                     <input type='date'ref='searchDate' required/><span style={{fontSize: 24}}>*</span>

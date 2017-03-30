@@ -10,11 +10,14 @@ export function formatDate(date) {
         'Sunday', 'Monday', 'Tuesday',
         'Wednesday', 'Thursday', 'Friday', 'Saturday'
     ];
-    date = new Date(date);
-    const dayOfWeek = date.getDay();
-    const day = date.getDate();
-    const monthIndex = date.getMonth();
-    const year = date.getFullYear();
+
+    let today = new Date(date);
+    today.setTime( today.getTime() + today.getTimezoneOffset() * 60*1000 );
+
+    const dayOfWeek = today.getDay();
+    const day = today.getDate();
+    const monthIndex = today.getMonth();
+    const year = today.getFullYear();
 
     return (dayNames[dayOfWeek] + ', ' + monthNames[monthIndex] + ' ' + day + ', ' + year);
 }

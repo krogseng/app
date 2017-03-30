@@ -16,8 +16,14 @@ export default class UserMain extends Component {
             user: {},
             date: '',
             chosenBlock: {},
+            
+            savedMoods: [],
+            blocks: [],
+            allMoods: [],
+            src: '/assets/gray.svg',            
         };
         this.handleDateSubmit = this.handleDateSubmit.bind(this);
+        this.doFetchDate = this.doFetchDate.bind(this);
         this.handleBlockSelect = this.handleBlockSelect.bind(this);
     }
 
@@ -38,16 +44,31 @@ export default class UserMain extends Component {
         })
         .then(user => {
             const date = currentDateToString();
+            console.log('user main date', date)
             this.setState({
-                ...this.state,
                 user,
                 date
             })
         })
-        .catch(err => 
-            console.log(err)
-        );
-
+        .then(() => {
+            fetcher({
+                path: '/block', 
+                method: 'GET', 
+            })
+            .then(res => {
+                return res.json();
+            })
+            .then(blocks => {
+                this.setState({
+                    blocks,
+                    allMoods: blocks,
+                });
+            })
+            .then (() => {
+                this.doFetchDate();
+            });
+        })
+        .catch()
     }
 
     handleBlockSelect(chosenBlock) {
@@ -58,9 +79,40 @@ export default class UserMain extends Component {
     }
 
     handleDateSubmit(date) {
-        if(date) {
-            this.doFetchDate(date);
-        }
+        this.setState({
+            ...this.state,
+            date
+        })
+    }
+
+    doFetchDate() {
+        console.log('in fetch date', this.state.date);
+        const token = localStorage.getItem('token');
+        fetcher({
+            path: `/user/moods?date=${this.state.date}`, 
+            method: 'GET', 
+            token
+        })
+        .then(res => {
+            return res.json();
+        })
+        .then(moods => {
+            const allMoods = [...this.state.blocks];
+
+            console.log('moods in forEach', moods)
+
+            moods.forEach((mood) => {
+                allMoods[mood.block.blockNumber] = mood;
+            })
+
+            this.setState({
+                savedMoods: moods,
+                allMoods,
+            });
+        })
+        .catch(err => 
+            console.log(err)
+        );
     }
 
     render() {
@@ -75,8 +127,12 @@ export default class UserMain extends Component {
                         <UserMoodsDay {...props} 
                             user={ user } 
                             blocks={this.state.blocks}
-                            handleDateSubmit={this.handleDateSubmit}
+                            allMoods={this.state.allMoods}
                             date={this.state.date}
+                            src={this.state.src}
+                            savedMoods={this.state.savedMoods}
+                            handleDateSubmit={this.handleDateSubmit}
+                            doFetchDate={this.doFetchDate}
                             handleBlockSelect={this.handleBlockSelect}
                         />
                     )} />
