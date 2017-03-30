@@ -1,31 +1,19 @@
 import React from 'react';
 import RC2 from 'react-chartjs2';
 
-
-// class Pie extends Component {
-//   render() {
-//     return (
-//       <RC2 data={data} type='pie' />
-//     );
-//   }
-// }
-
 export default function UserMonthChart(props) {
-    const cfCount = count(props.monthColors)
-    const lkLabels = Object.keys(cfCount)
+    const jlColors = getColors(props.monthColors)
+    const lkLabels = Object.keys(jlColors)
+    const cfCount = getCount(jlColors)
+    const cfMood = getMoods(jlColors)
     
     const data = {
-    labels: lkLabels,
-    datasets: [{
-        data: values(cfCount),
-        backgroundColor: lkLabels
-        // hoverBackgroundColor: [
-        // '#FF6384',
-        // '#36A2EB',
-        // '#FFCE56'
-        // ]
-    }]
-};
+        labels: cfMood,
+        datasets: [{
+            data: cfCount,
+            backgroundColor: lkLabels
+        }]
+    };
 
 
     function count(monthColors) {
@@ -46,15 +34,34 @@ export default function UserMonthChart(props) {
         return colorValues;
     }
 
-    function mood () {
-        
+    function getColors (monthColors) {
+        const colorCount = {}
+        monthColors.forEach((monthColor) => {
+            let indexColor = monthColor.color.hexColor
+            if (colorCount[indexColor]) {
+                colorCount[indexColor].count = colorCount[indexColor].count + 1;
+                
+            } else {
+                colorCount[indexColor] = {
+                    count: 1,
+                    mood: monthColor.color.mood
+                };
+            }
+        })
+        return colorCount;
     }
 
-    
-    
+    function getCount (colors) {
+        return Object.keys(colors).map((colorKey) => {
+            return colors[colorKey].count
+        })
+    }
 
-    
-
+    function getMoods (colors) {
+        return Object.keys(colors).map((colorKey) => {
+            return colors[colorKey].mood
+        })
+    }
     
     return (
         <div className='container'>
