@@ -67,7 +67,6 @@ export default class UserMoodSelector extends Component {
             token,
         })
         .then(res => {
-            console.log(res)
             return res.json();
         })
         .then(json => {
