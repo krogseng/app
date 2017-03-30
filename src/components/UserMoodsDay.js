@@ -26,7 +26,7 @@ export default class UserMoodsDay extends Component {
     render() {
         const formattedDate = formatDate(this.props.date);
         console.log('mood date',formattedDate)
-        if(!this.props.allMoods) {
+        if(!this.props.allMoods && !this.props.date) {
             return <div>loading</div>
         }
         const { match } = this.props;
@@ -46,10 +46,20 @@ export default class UserMoodsDay extends Component {
         });
         let allRows = [];
         allRows.push(rowOne, rowTwo, rowThree);
+        let weatherMood;
+        if (this.props.savedMoods) {
+            weatherMood = this.props.savedMoods[0];
+        }
         return (
             <div className='container'>
                 <h5 className='text-center'>{formattedDate}</h5>
-                {allRows.map((row, i)=> {
+                {weatherMood &&
+                    <div>
+                        <span>Location: {weatherMood.weather.city}, {weatherMood.weather.state}, {weatherMood.weather.country}</span>
+                        <span>Today's Weather: {weatherMood.weather.temp}, {weatherMood.weather.description}</span>
+                    </div>
+                }
+                {allRows.map((row, i) => {
                     return (<div className='row' key={i}>
                         {row.map((block, i) => {
                             return (

@@ -36,7 +36,6 @@ class App extends Component {
                         token: token,
                     });
                 }
-                //if valid token, redirect to user dashboard
             });
         }
     }
@@ -63,7 +62,6 @@ class App extends Component {
     componentDidMount() {
         this.hydrateAuth();
     }
-    //fetch for colors and users
     render() {
         return (
             < Router >
