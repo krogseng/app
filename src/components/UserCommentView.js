@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { formatDate } from '../helpers/formatDate';
 
 export default function UserCommentView(props) {
-    console.log(props.allMoods[0].comment);
     const dayMoods = props.allMoods;
     let weatherMood;
     if(dayMoods) {
@@ -42,7 +41,6 @@ export default function UserCommentView(props) {
                         </div>
                     );
                 } else {
-                    console.log(mood);
                     return (
                         <div>
                             <div key={i} className='row'>
