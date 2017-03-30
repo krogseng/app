@@ -17,7 +17,6 @@ export default class UserMoodsDay extends Component {
 
     render() {
         const formattedDate = formatDate(this.props.date);
-        console.log('mood date',formattedDate)
         if(!this.props.allMoods && !this.props.date) {
             return <div>loading</div>
         }
@@ -72,7 +71,6 @@ export default class UserMoodsDay extends Component {
                                         {block.color &&
                                             (<input 
                                                 onClick={(e) => {
-                                                    console.log('block',block.block)
                                                     this.props.handleBlockSelect(block.block);
                                                 }}
                                                 type='image'
@@ -92,7 +90,6 @@ export default class UserMoodsDay extends Component {
                 <UserViewBar />
                 <form onChange={(e) => {
                         e.preventDefault();
-                        console.log('in on change', this.refs.searchDate.value)
                         this.props.handleDateSubmit(this.refs.searchDate.value);
                     }}>
                     <label>Choose another date:</label>
