@@ -88,7 +88,6 @@ export default class UserMoodsDay extends Component {
                 <form onChange={(e) => {
                         e.preventDefault();
                         this.props.handleDateSubmit(this.refs.searchDate.value);
-                        this.props.doFetchDate(this.refs.searchDate.value);
                     }}>
                     <label>Choose another date:</label>
                     <input type='date'ref='searchDate' required/><span style={{fontSize: 24}}>*</span>

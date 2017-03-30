@@ -33,7 +33,9 @@ export default class UserMain extends Component {
 
     //TODO promise all
     componentDidMount() {
-        const token = localStorage.getItem('token');        
+        const token = localStorage.getItem('token'); 
+        let date= currentDateToString();
+
         fetcher({ 
             path: '/user', 
             method: 'GET', 
@@ -43,14 +45,6 @@ export default class UserMain extends Component {
             return res.json();
         })
         .then(user => {
-            const date = currentDateToString();
-            console.log('user main date', date)
-            this.setState({
-                user,
-                date
-            })
-        })
-        .then(() => {
             fetcher({
                 path: '/block', 
                 method: 'GET', 
@@ -62,6 +56,8 @@ export default class UserMain extends Component {
                 this.setState({
                     blocks,
                     allMoods: blocks,
+                    date,
+                    user
                 });
             })
             .then (() => {
@@ -80,9 +76,9 @@ export default class UserMain extends Component {
 
     handleDateSubmit(date) {
         this.setState({
-            ...this.state,
             date
         })
+        this.doFetchDate()
     }
 
     doFetchDate() {

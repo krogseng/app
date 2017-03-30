@@ -44,15 +44,12 @@ class App extends Component {
 
     handleSignIn(token) {
         localStorage.setItem('token', token);
-        this.setState({
-            isSignedIn: true,
-            token: token,
+        if(token) {
+            this.setState({
+                isSignedIn: true,
+                token: token,
+            });
         }
-        // , () => {
-        //     return ()
-        
-        // }
-        );
     }
 
     handleSignOut() {

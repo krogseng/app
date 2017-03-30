@@ -13,9 +13,7 @@ export default class AllUsers extends Component {
 
     componentDidMount() {
         let date = currentDateToString();
-        this.setState({
-            date
-        });
+
         fetcher({
             path:  `/users/moods?date=${date}`, 
             method: 'GET', 
@@ -25,14 +23,15 @@ export default class AllUsers extends Component {
         })
         .then(moods => {
             this.setState({
-                moods
+                moods,
+                date
             });
         });
     }
 
     render() {
         const allUsersMoods = this.state.moods;
-        console.log('aum',allUsersMoods)
+        console.log('aum',allUsersMoods);
         return (
             <div className='container'>
                 <div>
@@ -50,7 +49,7 @@ export default class AllUsers extends Component {
                         <option>weather</option>
                     </select>  
                 </div>
-                <div>
+                <div className='ten columns'>
                 {allUsersMoods.map(mood => {
                     if(mood.color) {
                         return (
