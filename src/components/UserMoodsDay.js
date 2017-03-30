@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router-dom';
 import UserViewBar from './UserViewBar';
-import fetcher from '../helpers/fetcher';
-import { formatDate, currentDateToString } from '../helpers/formatDate';
+import { formatDate } from '../helpers/formatDate';
 
 export default class UserMoodsDay extends Component {
     constructor(props) {
@@ -15,13 +14,6 @@ export default class UserMoodsDay extends Component {
     static propTypes = {
         match: PropTypes.object.isRequired,
     }
-
-    // user={ user } 
-    // blocks={this.state.blocks}
-    // handleDateSubmit={this.handleDateSubmit}
-    // doFetchDate={this.doFetchDate}
-    // date={this.state.date}
-    // handleBlockSelect={this.handleBlockSelect}
 
     render() {
         const formattedDate = formatDate(this.props.date);
@@ -79,7 +71,10 @@ export default class UserMoodsDay extends Component {
                                         }
                                         {block.color &&
                                             (<input 
-                                                onClick={(e) => {console.log(block.color)}}
+                                                onClick={(e) => {
+                                                    console.log('block',block.block)
+                                                    this.props.handleBlockSelect(block.block);
+                                                }}
                                                 type='image'
                                                 key={i}
                                                 ref={block.block.blockNumber}

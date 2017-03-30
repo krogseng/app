@@ -36,7 +36,7 @@ export default function UserCommentView(props) {
                                 <span>{mood.block.timeFrame}</span>
                             </div>
                             <div className='two columns'>
-                                <img src={mood.color.path}/>
+                                <img src={mood.color.path} alt={mood.color.mood}/>
                             </div>
                             <span>{mood.comment}</span>
                         </div>
@@ -51,7 +51,7 @@ export default function UserCommentView(props) {
                                     <span className='text-center'>{mood.timeFrame}</span>
                                 </div>
                                 <div className='two columns'>
-                                    <img src={props.src} />
+                                    <img src={props.src} alt='default' />
                                 </div>
                                 <span style={{color: 'lightGray'}}>no mood logged</span>
                             </div>

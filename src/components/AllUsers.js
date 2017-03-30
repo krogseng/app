@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import fetcher from '../helpers/fetcher';
-import { formatDate, currentDateToString } from '../helpers/formatDate';
+import { currentDateToString } from '../helpers/formatDate';
 
 export default class AllUsers extends Component {
     constructor(props) {
@@ -53,11 +53,12 @@ export default class AllUsers extends Component {
                 {allUsersMoods.map(mood => {
                     if(mood.color) {
                         return (
-                        <div className='one column'>
-                            <img src={mood.color.path} key={mood._id} alt={mood.color}/>
-                        </div>
+                            <div className='one column'>
+                                <img src={mood.color.path} key={mood._id} alt={mood.color}/>
+                            </div>
                         );
                     }
+                    return;
                 })
 
                 }

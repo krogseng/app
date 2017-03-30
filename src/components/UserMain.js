@@ -112,7 +112,6 @@ export default class UserMain extends Component {
     }
 
     render() {
-        console.log('state',this.state)
         const { match } = this.props;
         const user = this.state.user;
         return (
