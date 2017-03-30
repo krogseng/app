@@ -10,53 +10,58 @@ export default class UserMoodSelector extends Component {
             colors: [],
             selectedColor: {}
         };
+        this.handleMoodSubmit = this.handleMoodSubmit.bind(this);
+        this.doFetchMoodPost = this.doFetchMoodPost.bind(this);
     }
 
     static propTypes = {
         match: PropTypes.object.isRequired,
     }
 
-    // componentDidMount() {
-    //     fetcher({
-    //         path: '/color', 
-    //         method: 'GET', 
-    //     })
-    //     .then(res => {
-    //         return res.json();
-    //     })
-    //     .then(colors => {
-    //         this.setState({
-    //             ...this.state,
-    //             colors 
-    //         });
-    //     })
-    //     .catch(err => 
-    //         console.log(err)
-    //     );
-    // }
+    componentDidMount() {
+        fetcher({
+            path: '/color', 
+            method: 'GET', 
+        })
+        .then(res => {
+            return res.json();
+        })
+        .then(colors => {
+            this.setState({
+                ...this.state,
+                colors 
+            });
+        })
+        .catch(err => 
+            console.log(err)
+        );
+    }
 
     handleMoodSubmit(color) {
         this.setState({
             ...this.state,
             selectedColor: color,
+            submitMoodRedirect: true,
         })
     }
 
-    doFetchMoodPost(zipcode, mood) {
+    doFetchMoodPost(blockId, colorId, zipcode, comment, date) {
         const token = localStorage.getItem('token');
 
         return fetcher({
             path: '/user/moods/add',
             method: 'POST',
             body: {
-                // block,
-                // date,
+                blockId,
+                colorId,
                 zipcode,
-                mood,
+                comment,
+                date,
             },
             token,
         })
         .then(res => {
+            console.log(res)
             return res.json();
         })
         .then(json => {
@@ -65,7 +70,6 @@ export default class UserMoodSelector extends Component {
                 return;
             }
             //call handler to change state to update list of moods
-            return mood;
         });
     }
 
@@ -96,14 +100,14 @@ export default class UserMoodSelector extends Component {
                         e.preventDefault();
                         const zipcode = this.refs.zipcode.value;
                         const comment = this.refs.comment.value;
-                        console.log(zipcode, comment, this.state.selectedColor)
-                        this.doFetchMoodPost(zipcode, comment, this.state.selectedColor._id)
-                            .then((token) => {
-                                this.props.handleMoodSubmit(token);
-                                this.setState({
-                                    submitMoodRedirect: true,
-                                });
-                            })
+                        this.handleMoodSubmit();
+
+                        this.doFetchMoodPost(
+                            this.props.chosenBlock._id, 
+                            this.state.selectedColor._id, 
+                            zipcode, 
+                            comment, 
+                            this.props.date)
                             .catch(err => {
                                 console.log(err);
                             });

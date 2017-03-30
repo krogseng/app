@@ -7,24 +7,31 @@ import UserCommentView from './UserCommentView';
 import UserWeekView from './UserWeekView';
 import UserMonthView from './UserMonthView';
 import fetcher from '../helpers/fetcher';
+import { currentDateToString } from '../helpers/formatDate';
 
 export default class UserMain extends Component {
     constructor(props) {
         super(props);
         this.state = {
             user: {},
-            colors: [],
-            blocks: [],
             date: '',
-            view: 'day',
+            chosenBlock: {},
+            
+            savedMoods: [],
+            blocks: [],
+            allMoods: [],
+            src: '/assets/gray.svg',            
         };
+        this.handleDateSubmit = this.handleDateSubmit.bind(this);
+        this.doFetchDate = this.doFetchDate.bind(this);
+        this.handleBlockSelect = this.handleBlockSelect.bind(this);
     }
 
     static propTypes = {
         match: PropTypes.object.isRequired,
     }
 
-    //promise all
+    //TODO promise all
     componentDidMount() {
         const token = localStorage.getItem('token');        
         fetcher({ 
@@ -36,45 +43,80 @@ export default class UserMain extends Component {
             return res.json();
         })
         .then(user => {
+            const date = currentDateToString();
+            console.log('user main date', date)
             this.setState({
-                user
+                user,
+                date
             })
         })
-        .catch(err => 
-            console.log(err)
-        );
-     
+        .then(() => {
+            fetcher({
+                path: '/block', 
+                method: 'GET', 
+            })
+            .then(res => {
+                return res.json();
+            })
+            .then(blocks => {
+                this.setState({
+                    blocks,
+                    allMoods: blocks,
+                });
+            })
+            .then (() => {
+                this.doFetchDate();
+            });
+        })
+        .catch()
+    }
 
+    handleBlockSelect(chosenBlock) {
+        this.setState({
+            ...this.state,
+            chosenBlock
+        })
+    }
 
+    handleDateSubmit(date) {
+        this.setState({
+            ...this.state,
+            date
+        })
+    }
+
+    doFetchDate() {
+        console.log('in fetch date', this.state.date);
+        const token = localStorage.getItem('token');
         fetcher({
-            path: '/color', 
+            path: `/user/moods?date=${this.state.date}`, 
             method: 'GET', 
+            token
         })
         .then(res => {
             return res.json();
         })
-        .then(colors => {
+        .then(moods => {
+            const allMoods = [...this.state.blocks];
+
+            console.log('moods in forEach', moods)
+
+            moods.forEach((mood) => {
+                allMoods[mood.block.blockNumber] = mood;
+            })
+
             this.setState({
-                ...this.state,
-                colors 
+                savedMoods: moods,
+                allMoods,
             });
         })
         .catch(err => 
             console.log(err)
         );
-
-    }
-
-    handleDateSubmit(date) {
-        if(date) {
-            this.setState({
-                ...this.state,
-                date,
-            })
-        }
     }
 
     render() {
+        console.log('state',this.state)
         const { match } = this.props;
         const user = this.state.user;
         return (
@@ -85,11 +127,28 @@ export default class UserMain extends Component {
                         <UserMoodsDay {...props} 
                             user={ user } 
                             blocks={this.state.blocks}
+                            allMoods={this.state.allMoods}
+                            date={this.state.date}
+                            src={this.state.src}
+                            savedMoods={this.state.savedMoods}
                             handleDateSubmit={this.handleDateSubmit}
+                            doFetchDate={this.doFetchDate}
+                            handleBlockSelect={this.handleBlockSelect}
                         />
                     )} />
-                    < Route path={`${match.url}/moods`} render={props => (<UserMoodSelector {...props} />)} />
-                    < Route path={`${match.url}/comments`} component={ UserCommentView }/>
+                    < Route path={`${match.url}/moods`} render={props => (
+                        <UserMoodSelector {...props} 
+                            date={this.state.date}
+                            chosenBlock={this.state.chosenBlock}
+                        />)} 
+                    />
+                    < Route path={`${match.url}/comments`} render={props => (
+                        <UserCommentView {...props} 
+                            allMoods={this.state.allMoods}
+                            date={this.state.date}
+                            src={this.state.src}
+                        />
+                    )} />
                     < Route path={`${match.url}/week`} component={ UserWeekView }/>
                     < Route path={`${match.url}/month`} component={ UserMonthView }/>
                 </Switch>
