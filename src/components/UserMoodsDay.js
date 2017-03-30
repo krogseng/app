@@ -92,10 +92,12 @@ export default class UserMoodsDay extends Component {
                 <UserViewBar />
                 <form onChange={(e) => {
                         e.preventDefault();
+                        console.log('in on change', this.refs.searchDate.value)
                         this.props.handleDateSubmit(this.refs.searchDate.value);
                     }}>
                     <label>Choose another date:</label>
-                    <input type='date'ref='searchDate' required/><span style={{fontSize: 24}}>*</span>
+                    <input type='date'ref='searchDate' required/>
+                        <span style={{fontSize: 24}}>*</span>
                 </form>
             </div>
         );

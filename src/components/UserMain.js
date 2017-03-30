@@ -78,8 +78,10 @@ export default class UserMain extends Component {
     handleDateSubmit(date) {
         this.setState({
             date
+        }, () => {
+            this.doFetchDate()
+
         })
-        this.doFetchDate()
     }
 
     doFetchDate() {
@@ -94,9 +96,6 @@ export default class UserMain extends Component {
         })
         .then(moods => {
             const allMoods = [...this.state.blocks];
-
-            console.log('moods in forEach', moods)
-
             moods.forEach((mood) => {
                 allMoods[mood.block.blockNumber] = mood;
             })
