@@ -59,6 +59,7 @@ export default class UserMain extends Component {
                     date,
                     user
                 });
+               
             })
             .then (() => {
                 this.doFetchDate();
@@ -82,7 +83,6 @@ export default class UserMain extends Component {
     }
 
     doFetchDate() {
-        console.log('in fetch date', this.state.date);
         const token = localStorage.getItem('token');
         fetcher({
             path: `/user/moods?date=${this.state.date}`, 
@@ -135,6 +135,7 @@ export default class UserMain extends Component {
                         <UserMoodSelector {...props} 
                             date={this.state.date}
                             chosenBlock={this.state.chosenBlock}
+                            doFetchDate={this.doFetchDate}
                         />)} 
                     />
                     < Route path={`${match.url}/comments`} render={props => (

@@ -13,9 +13,9 @@ export default class AllUsers extends Component {
 
     componentDidMount() {
         let date = currentDateToString();
-
+        //?date=${date}
         fetcher({
-            path:  `/users/moods?date=${date}`, 
+            path:  `/users/moods`, 
             method: 'GET', 
         })
         .then(res => {

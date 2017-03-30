@@ -75,7 +75,7 @@ export default class UserMoodSelector extends Component {
                 console.log('error', json.error);
                 return;
             }
-            //call handler to change state to update list of moods
+            this.props.doFetchDate();
         });
     }
 
