@@ -17,20 +17,20 @@ export default function UserMonthChart(props) {
 
 
     function count(monthColors) {
-        const colorCount = {}
+        const colorCount = {};
         monthColors.forEach((monthColor) => {
-            let indexColor = monthColor.color.hexColor
-            if (colorCount[indexColor]) colorCount[indexColor] = colorCount[indexColor] + 1
+            let indexColor = monthColor.color.hexColor;
+            if (colorCount[indexColor]) colorCount[indexColor] = colorCount[indexColor] + 1;
             else colorCount[indexColor] = 1;
-        })
+        });
         return colorCount;
     }
 
     function values (monthColorsCount) {
-        const colorValues = []
+        const colorValues = [];
         Object.keys(monthColorsCount).forEach((key) => {
             colorValues.push(monthColorsCount[key])
-        })
+        });
         return colorValues;
     }
 
