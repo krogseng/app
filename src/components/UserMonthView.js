@@ -37,7 +37,6 @@ export default class UserMonthView extends Component {
                 monthMoods: moods,
                 monthColors 
             })
-            console.log(this.state)
         })
         .catch(err => {
             console.log('userMonth', err)
